@@ -1,38 +1,44 @@
-
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import apiClient from "../api-client";
 import { CanceledError } from "axios";
 
+export interface Platform {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 export interface Game {
-    id: number;
-    name: string;
-    background_image: string;
+  id: number;
+  name: string;
+  background_image: string;
+  parent_platforms: { platform: Platform }[];
 }
 
 interface FetchGamesResponse {
-    count: number;
-    results: Game[];
+  count: number;
+  results: Game[];
 }
 
-export const useGame = () => {
-    const [games, setGames] = useState<Game[]>([]);
-    const [error, setError] = useState<Error | null>(null);
-   
+const useGames = () => {
+  const [games, setGames] = useState<Game[]>([]);
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-        const controller = new AbortController();
-        apiClient.get<FetchGamesResponse>("/games",{signal: controller.signal})
-            .then(res => {
-                setGames(res.data.results);
-            })
-            .catch((err) => {
-                if (err instanceof CanceledError) return;
-                setError(err.message ? new Error(err.message) : new Error("An unknown error occurred"));
-            });
-        return () => controller.abort();
-    }, []);
+  useEffect(() => {
+    const controller = new AbortController();
 
-    return { games, error };
-}
+    apiClient
+      .get<FetchGamesResponse>("/games", { signal: controller.signal })
+      .then((res) => setGames(res.data.results))
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        setError(err.message);
+      });
 
-export default useGame;
+    return () => controller.abort();
+  }, []);
+
+  return { games, error };
+};
+
+export default useGames;
