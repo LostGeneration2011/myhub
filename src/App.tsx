@@ -7,16 +7,15 @@ const App = () => {
     <Grid
       templateAreas={{ base: `"nav" "main"`, lg: `"nav nav" "aside main"` }}>
       <GridItem area={"nav"} bg={"#"}>
-        {" "}
         <NavBar />
       </GridItem>
-      <Show when={{ base: false, lg: true }}>
+
+      <Show when={"lg"}>
         <GridItem
           area={"aside"}
           bg={"#"}
           display={{ base: "none", lg: "block" }}>
-          {" "}
-          Left side bar
+          Left Side Bar
         </GridItem>
       </Show>
 
