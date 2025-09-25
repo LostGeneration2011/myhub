@@ -21,9 +21,17 @@ const PlatformSelector = ({ selectedPlatform, onSelectedPlatform }: Props) => {
           <Menu.Content>
             {data.map((p) => (
               <Menu.Item
-                value="new-txt-a"
+                value={String(p.id)}
+                key={p.id}
                 onClick={() => onSelectedPlatform(p)}
-                key={p.id}>
+                css={{
+                  _hover: {
+                    bg: "gray.4",
+                  },
+                  cursor: "pointer",
+                  borderRadius: "md",
+                }}
+              >
                 {p.name}
               </Menu.Item>
             ))}

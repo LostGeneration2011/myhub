@@ -10,8 +10,14 @@ interface Props {
 
 const GameCard = ({ game }: Props) => {
   return (
-    <Card.Root>
-      <Image src={getCropImageUrl(game.background_image)} alt="Game List" />
+    <Card.Root h="100%">
+      <Image
+        src={getCropImageUrl(game.background_image)}
+        alt="Game List"
+        h="170px"
+        w="100%"
+        objectFit="cover"
+      />
       <Card.Body gap="2">
         <Card.Title>{game.name}</Card.Title>
 

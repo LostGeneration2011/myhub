@@ -1,10 +1,17 @@
-const getCropImageUrl = (url: string) => {
-  // https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg
-  const target = "media/";
-  const index = url.indexOf(target) + target.length; // 6
+import placeholder from "../../assets/bonglua.png";
 
-  // https://media.rawg.io/media/crop/600/400/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg
-  return url.slice(0, index) + "crop/600/400/" + url.slice(index);
+const getCropImageUrl = (url?: string | null) => {
+  // Fallback if url is null/undefined
+  if (!url) return placeholder;
+
+  const target = "media/";
+  const idx = url.indexOf(target);
+  // If unexpected format, return original url
+  if (idx === -1) return url;
+
+  const insertAt = idx + target.length;
+  // https://media.rawg.io/media/crop/600/400/games/...jpg
+  return url.slice(0, insertAt) + "crop/600/400/" + url.slice(insertAt);
 };
 
 export default getCropImageUrl;
